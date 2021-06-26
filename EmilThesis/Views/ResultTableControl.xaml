@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="EmilThesis.Views.ResultTableControl"
+<UserControl x:Class="EmilThesis.Views.ResultTableControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,30 @@
              xmlns:local="clr-namespace:EmilThesis.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <TabControl Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
+        <TabItem Style="{DynamicResource MahApps.Styles.TabItem.VisualStudio}">
+            <TabItem.Header>
+                <TextBlock Text="Коэффициенты S1" FontSize="12"/>
+            </TabItem.Header>
+            <DataGrid AutoGenerateColumns="True" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" ItemsSource="{Binding S1}" CanUserAddRows="False" IsReadOnly="True" BorderBrush="Black" Background="WhiteSmoke" ColumnWidth="Auto" CanUserDeleteRows="False" FontSize="12" />
+        </TabItem>
+        <TabItem Style="{DynamicResource MahApps.Styles.TabItem.VisualStudio}">
+            <TabItem.Header>
+                <TextBlock Text="Коэффициенты S2" FontSize="12"/>
+            </TabItem.Header>
+            <DataGrid AutoGenerateColumns="True" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" ItemsSource="{Binding S2}" CanUserAddRows="False" IsReadOnly="True" BorderBrush="Black" Background="WhiteSmoke" ColumnWidth="Auto" CanUserDeleteRows="False" FontSize="12" />
+        </TabItem>
+        <TabItem Style="{DynamicResource MahApps.Styles.TabItem.VisualStudio}">
+            <TabItem.Header>
+                <TextBlock Text="Значения временного ряда линейной модели" FontSize="12"/>
+            </TabItem.Header>
+            <DataGrid AutoGenerateColumns="True" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" ItemsSource="{Binding LinearModel}" CanUserAddRows="False" IsReadOnly="True" BorderBrush="Black" Background="WhiteSmoke" ColumnWidth="Auto" CanUserDeleteRows="False" FontSize="12" />
+        </TabItem>
+        <TabItem Style="{DynamicResource MahApps.Styles.TabItem.VisualStudio}">
+            <TabItem.Header>
+                <TextBlock Text="Предсказанные значения" FontSize="12"/>
+            </TabItem.Header>
+            <DataGrid AutoGenerateColumns="True" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" ItemsSource="{Binding PredictedValues}" CanUserAddRows="False" IsReadOnly="True" BorderBrush="Black" Background="WhiteSmoke" ColumnWidth="Auto" CanUserDeleteRows="False" FontSize="12" />
+        </TabItem>
+    </TabControl>
 </UserControl>

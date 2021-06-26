@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using EmilThesis.Calc;
 using EmilThesis.Models;
+using EmilThesis.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -49,7 +51,13 @@ namespace EmilThesis.ViewModels
             }
         }
 
+        public ResultTableViewModel ResultTable { get; set; }
+
+        public PlotsViewModel Plots { get; set; }
+
         public DelegateCommand CalcCommand { get; }
+
+        public DelegateCommand OpenTimeSeriesEditorCommand { get; }
 
         #endregion
 
@@ -104,13 +112,6 @@ namespace EmilThesis.ViewModels
 
         private void CalcCommandHandler()
         {
-            this.timeSeriesInputParamters.InputTimeSeries = new List<double>()
-            {
-                622, 620, 621, 630, 636, 650, 666, 670, 676, 684,
-                696, 705, 707, 718, 731, 745, 758, 773, 787, 807,
-                828, 844, 870, 894, 920, 938, 962, 990, 1020, 1050
-            };
-
             if (!this.timeSeriesInputParamters.InputTimeSeries.Any())
             {
                 MessageBox.Show("Введите исходные данные в редакторе временного ряда!");
@@ -118,6 +119,16 @@ namespace EmilThesis.ViewModels
             }
 
             var result = this.timeSeriesAnalyzer.Calc(this.timeSeriesInputParamters);
+            this.ResultTable = new ResultTableViewModel(result);
+            this.Plots = new PlotsViewModel(result, this.timeSeriesInputParamters);
+            RaisePropertyChanged(nameof(this.ResultTable));
+            RaisePropertyChanged(nameof(this.Plots));
+        }
+
+        private void OpenTimeSeriesEditorCommandHandler()
+        {
+            var timeSeriesEditor = new TimeSeriesEditor(new TimeSeriesEditorViewModel(this.timeSeriesInputParamters.InputTimeSeries));
+            timeSeriesEditor.ShowDialog();
         }
 
         #endregion
@@ -131,7 +142,16 @@ namespace EmilThesis.ViewModels
             this.timeSeriesAnalyzer = new TimeSeriesAnalyzer();
             this.Alpha = 0.0;
             this.M = 0;
+            this.timeSeriesInputParamters.InputTimeSeries = new ObservableCollection<TimeSeriesItem>()
+            {
+                new(1, 622), new(2, 620), new(3, 621), new(4, 630), new(5,636), new(6,650), new(7,666), new(8,670),
+                new(9,676), new(10,684), new(11,696), new(12,705), new(13,707), new(14,718), new(15,731), new(16,745),
+                new(17,758), new(18,773), new(19,787), new(20,807),
+                new(21,828), new(22,844), new(23,870), new(24,894), new(25,920), new(26,938), new(27,962), new(28,990),
+                new(29,1020), new(30,1050)
+            };
             this.CalcCommand = new DelegateCommand(this.CalcCommandHandler);
+            this.OpenTimeSeriesEditorCommand = new DelegateCommand(this.OpenTimeSeriesEditorCommandHandler);
         }
 
         #endregion

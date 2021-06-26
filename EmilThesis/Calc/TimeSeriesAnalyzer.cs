@@ -17,13 +17,9 @@ namespace EmilThesis.Calc
         /// <returns>Результат.</returns>
         public TimeSeriesResult Calc(TimeSeriesInputParameters timeSeriesInputParamters)
         {
-            var x = timeSeriesInputParamters.InputTimeSeries.ToList();
-            var n = x.Count();
-            var t = new double[n]; //временной ряд
-            for (var i = 0; i < n; i++)
-            {
-                t[i] = i + 1;
-            }
+            var x = timeSeriesInputParamters.InputTimeSeries;
+            var n = x.Count;
+            var t = x.Select(x => x.Date).ToList();
 
             var sum_x = 0.0; //вычисление коэффициентов a0 и a1
             var sum_y = 0.0;
@@ -31,10 +27,10 @@ namespace EmilThesis.Calc
             var sum_xy = 0.0;
             for (int i = 0; i < n; i++)
             {
-                sum_x += t[i];
-                sum_y += x[i];
-                sum_xx += (t[i] * t[i]);
-                sum_xy += (t[i] * x[i]);
+                sum_x += x[i].Date;
+                sum_y += x[i].Value;
+                sum_xx += ((double)x[i].Date * x[i].Date);
+                sum_xy += (x[i].Date * x[i].Value);
             }
             double a1 = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
             double a0 = (sum_y - a1 * sum_x) / n;
@@ -42,10 +38,12 @@ namespace EmilThesis.Calc
             var timeSeriesResult = new TimeSeriesResult();
             var s1 = new double[n];
             var s2 = new double[n];
-            linearModel(x.ToArray(), timeSeriesInputParamters.Alpha, ref s1, ref s2, a0, a1, 0);
-            timeSeriesResult.S1 = new List<double>(s1);
-            timeSeriesResult.S2 = new List<double>(s2);
-            timeSeriesResult.LinearModel = linearModel(x.ToArray(), timeSeriesInputParamters.Alpha, ref s1, ref s2, a0, a1, timeSeriesInputParamters.M);
+            linearModel(x.Select(x => x.Value).ToArray(), timeSeriesInputParamters.Alpha, ref s1, ref s2, a0, a1, 0);
+            timeSeriesResult.S1 = t.Zip(s1, (first, second) => new TimeSeriesItem((int)first, second)).ToList();
+            timeSeriesResult.S2 = t.Zip(s2, (first, second) => new TimeSeriesItem((int)first, second)).ToList();
+            var lm = linearModel(x.Select(x => x.Value).ToArray(), timeSeriesInputParamters.Alpha, ref s1, ref s2, a0, a1, timeSeriesInputParamters.M);
+            timeSeriesResult.LinearModel = t.Zip(lm, (first, second) => new TimeSeriesItem((int)first, second)).ToList();
+            timeSeriesResult.PredictedValues = timeSeriesResult.LinearModel.TakeLast(timeSeriesInputParamters.M);
             return timeSeriesResult;
         }
 
@@ -125,7 +123,7 @@ namespace EmilThesis.Calc
             for (int i = 1; i < n - m; i++)
             {
                 s1[i] = alpha * a[i] + beta * s1[i - 1];
-                s2[i] = alpha * s2[i] + beta * s2[i - 1];
+                s2[i] = alpha * s1[i] + beta * s2[i - 1];
                 xt[i] = (a0t[i - 1] + a1t[i - 1]);
                 x_t = xt[i];
                 a0t[i] = a[i] + beta * beta * (x_t - a[i]);

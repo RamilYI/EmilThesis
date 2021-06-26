@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Documents;
 
 namespace EmilThesis.Models
@@ -8,7 +9,7 @@ namespace EmilThesis.Models
     /// </summary>
     public class TimeSeriesInputParameters
     {
-        public IEnumerable<double> InputTimeSeries = new List<double>();
+        public ObservableCollection<TimeSeriesItem> InputTimeSeries = new ObservableCollection<TimeSeriesItem>();
 
         public double Alpha;
 

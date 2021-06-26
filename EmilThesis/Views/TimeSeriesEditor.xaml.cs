@@ -10,20 +10,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EmilThesis.Common;
+using EmilThesis.Models;
+using EmilThesis.ViewModels;
 
 namespace EmilThesis.Views
 {
     /// <summary>
-    /// Interaction logic for ResultTableControl.xaml
+    /// Interaction logic for TimeSeriesEditor.xaml
     /// </summary>
-    public partial class ResultTableControl : UserControl
+    public partial class TimeSeriesEditor : Window
     {
-        public ResultTableControl()
+        public TimeSeriesEditor(TimeSeriesEditorViewModel timeSeriesEditorViewModel)
         {
             InitializeComponent();
+            DataContext = timeSeriesEditorViewModel;
         }
 
         private void DataGrid_OnAutoGeneratingColumn(object? sender, DataGridAutoGeneratingColumnEventArgs e)

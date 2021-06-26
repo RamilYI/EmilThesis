@@ -8,12 +8,12 @@
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
                  xmlns:views="clr-namespace:EmilThesis.Views"
                  mc:Ignorable="d"
-                 Title="Анализ временных рядов" Height="450" Width="1200">
+                 Title="Анализ временных рядов" Height="450" Width="1400">
     <wpfAutoGrid:AutoGrid Columns="1*, 25, *">
         <wpfAutoGrid:AutoGrid   Rows="*, Auto, Auto, Auto">
             <GroupBox Header="Параметры" FontSize="16" Grid.Row="0">
                 <wpfAutoGrid:AutoGrid Columns="Auto, *" Rows="Auto, *">
-                    <Button Content="Редактор временного ряда" Grid.ColumnSpan="2" Grid.Row="0"  Background="Gray" BorderBrush="Gray" Margin="5" />
+                    <Button Content="Редактор временного ряда" Command="{Binding OpenTimeSeriesEditorCommand}" Grid.ColumnSpan="2" Grid.Row="0"  Background="Gray" BorderBrush="Gray" Margin="5" />
                     <StackPanel Grid.Column="0" Grid.Row="1">
                         <Label Content="α:" Style="{StaticResource LabelPropertyStyle}"/>
                         <Label Content="m:" Style="{StaticResource LabelPropertyStyle}"/>
