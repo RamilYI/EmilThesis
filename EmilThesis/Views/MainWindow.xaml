@@ -17,16 +17,14 @@
                     <StackPanel Grid.Column="0" Grid.Row="1">
                         <Label Content="α:" Style="{StaticResource LabelPropertyStyle}"/>
                         <Label Content="m:" Style="{StaticResource LabelPropertyStyle}"/>
-                        <Label Content="Метод экспоненциального сглаживания:" Style="{StaticResource LabelPropertyStyle}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="1">
                         <mah:NumericUpDown Style="{StaticResource NumericUpDownPropertyStyle}" StringFormat="N" Value="{Binding Alpha, UpdateSourceTrigger=PropertyChanged}"/>
-                        <mah:NumericUpDown Style="{StaticResource NumericUpDownPropertyStyle}" StringFormat="N" Value="{Binding M, UpdateSourceTrigger=PropertyChanged}"/>
-                        <ComboBox ItemsSource="{Binding ExponentialSmoothingMethods}" SelectedItem="{Binding ExponentialSmoothingMethod}"  SelectedIndex="0" Style="{StaticResource CommonPropertyStyle}"/>
+                        <mah:NumericUpDown Style="{StaticResource NumericUpDownPropertyStyle}"  StringFormat="N0" Value="{Binding M, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </wpfAutoGrid:AutoGrid>
             </GroupBox>
-            <Button Content="Рассчитать" Grid.Row="1" Background="Gray" BorderBrush="Gray" Margin="5" />
+            <Button Content="Рассчитать" Command="{Binding CalcCommand}" Grid.Row="1" Background="Gray" BorderBrush="Gray" Margin="5" />
             <Button Content="Отменить расчёт" Grid.Row="2" Background="Gray" BorderBrush="Gray" Margin="5" />
             <Button Content="Загрузить результаты расчёта в файл Excel" Grid.Row="3" Background="Gray" BorderBrush="Gray" Margin="5" />
         </wpfAutoGrid:AutoGrid>

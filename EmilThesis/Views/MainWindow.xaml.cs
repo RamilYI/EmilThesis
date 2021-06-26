@@ -1,4 +1,5 @@
 using System.Windows;
+using EmilThesis.ViewModels;
 using MahApps.Metro.Controls;
 
 namespace EmilThesis.Views
@@ -8,9 +9,10 @@ namespace EmilThesis.Views
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public MainWindow()
+        public MainWindow(MainViewModel mainViewModel)
         {
             InitializeComponent();
+            DataContext = mainViewModel;
         }
     }
 }
