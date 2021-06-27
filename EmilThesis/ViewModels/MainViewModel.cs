@@ -6,8 +6,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using EmilThesis.Calc;
+using EmilThesis.Helpers;
 using EmilThesis.Models;
 using EmilThesis.Views;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -57,6 +59,7 @@ namespace EmilThesis.ViewModels
 
         public DelegateCommand CalcCommand { get; }
 
+        public DelegateCommand ExportCommand { get; set; }
         public DelegateCommand OpenTimeSeriesEditorCommand { get; }
 
         #endregion
@@ -73,6 +76,8 @@ namespace EmilThesis.ViewModels
         }
 
         private readonly Dictionary<string, List<string>> _errorsByPropertyName = new Dictionary<string, List<string>>();
+        private readonly TimeSeriesResultExporter timeSeriesResultExporter = new TimeSeriesResultExporter();
+        private TimeSeriesResult timeSeriesResult;
 
         public IEnumerable GetErrors(string propertyName) => _errorsByPropertyName.ContainsKey(propertyName) ? _errorsByPropertyName[propertyName] : null;
 
@@ -118,9 +123,9 @@ namespace EmilThesis.ViewModels
                 return;
             }
 
-            var result = this.timeSeriesAnalyzer.Calc(this.timeSeriesInputParamters);
-            this.ResultTable = new ResultTableViewModel(result);
-            this.Plots = new PlotsViewModel(result, this.timeSeriesInputParamters);
+            this.timeSeriesResult = this.timeSeriesAnalyzer.Calc(this.timeSeriesInputParamters);
+            this.ResultTable = new ResultTableViewModel(this.timeSeriesResult);
+            this.Plots = new PlotsViewModel(this.timeSeriesResult, this.timeSeriesInputParamters);
             RaisePropertyChanged(nameof(this.ResultTable));
             RaisePropertyChanged(nameof(this.Plots));
         }
@@ -131,8 +136,25 @@ namespace EmilThesis.ViewModels
             timeSeriesEditor.ShowDialog();
         }
 
-        #endregion
+        private void ExportCommandHandler()
+        {
+            if (this.timeSeriesResult == null)
+            {
+                return;
+            }
 
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "CSV (Semicolon delimitted) (*.csv)|*.csv",
+            };
+            var result = saveFileDialog.ShowDialog();
+            if (result.HasValue && result.Value)
+            {
+                this.timeSeriesResultExporter.ReadFile(saveFileDialog.FileName, this.timeSeriesResult);
+            }
+        }
+
+        #endregion
 
         #region Конструктор
 
@@ -142,16 +164,10 @@ namespace EmilThesis.ViewModels
             this.timeSeriesAnalyzer = new TimeSeriesAnalyzer();
             this.Alpha = 0.0;
             this.M = 0;
-            this.timeSeriesInputParamters.InputTimeSeries = new ObservableCollection<TimeSeriesItem>()
-            {
-                new(1, 622), new(2, 620), new(3, 621), new(4, 630), new(5,636), new(6,650), new(7,666), new(8,670),
-                new(9,676), new(10,684), new(11,696), new(12,705), new(13,707), new(14,718), new(15,731), new(16,745),
-                new(17,758), new(18,773), new(19,787), new(20,807),
-                new(21,828), new(22,844), new(23,870), new(24,894), new(25,920), new(26,938), new(27,962), new(28,990),
-                new(29,1020), new(30,1050)
-            };
             this.CalcCommand = new DelegateCommand(this.CalcCommandHandler);
+            this.ExportCommand = new DelegateCommand(this.ExportCommandHandler);
             this.OpenTimeSeriesEditorCommand = new DelegateCommand(this.OpenTimeSeriesEditorCommandHandler);
+            this.timeSeriesResultExporter = new TimeSeriesResultExporter();
         }
 
         #endregion

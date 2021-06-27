@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:EmilThesis.Views"
         xmlns:wpfAutoGrid="clr-namespace:WpfAutoGrid;assembly=WpfAutoGrid"
         mc:Ignorable="d"
-        Title="TimeSeriesEditor" Height="450" Width="450">
-    <wpfAutoGrid:AutoGrid Rows="*,Auto" Columns="*,*,*">
-        <DataGrid Grid.Row="0" Grid.ColumnSpan="3" AutoGenerateColumns="True" AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" ItemsSource="{Binding TimeSeriesValues}" CanUserAddRows="False" IsReadOnly="False" BorderBrush="Black" Background="WhiteSmoke" ColumnWidth="Auto" CanUserDeleteRows="False" FontSize="14" />
+        Title="TimeSeriesEditor" Height="450" Width="600">
+    <wpfAutoGrid:AutoGrid Rows="*,Auto" Columns="*,*,*,*">
+        <DataGrid Grid.Row="0" Grid.ColumnSpan="4" AutoGenerateColumns="True" AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" ItemsSource="{Binding TimeSeriesValues}" CanUserAddRows="False" IsReadOnly="False" BorderBrush="Black" Background="WhiteSmoke" ColumnWidth="Auto" CanUserDeleteRows="False" FontSize="14" />
         <Button Content="Добавить" Command="{Binding AddCommand}" Grid.Row="1" Grid.Column="0" Background="Gray" BorderBrush="Gray" Margin="5" />
         <Button Content="Удалить" Command="{Binding RemoveCommand}" Grid.Row="1" Grid.Column="1" Background="Gray" BorderBrush="Gray" Margin="5" />
         <Button Content="Загрузить из файла" Command="{Binding ImportCommand}" Grid.Row="1" Grid.Column="2" Background="Gray" BorderBrush="Gray" Margin="5" />
+        <Button Content="Очистить" Command="{Binding ClearCommand}" Grid.Row="1" Grid.Column="2" Background="Gray" BorderBrush="Gray" Margin="5" />
     </wpfAutoGrid:AutoGrid>
 </Window>

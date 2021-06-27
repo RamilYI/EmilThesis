@@ -20,4 +20,14 @@
     <PackageReference Include="WpfAutoGrid" Version="1.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ProjectTemplates\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ProjectTemplates\Шаблон исходных данных временного ряда.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

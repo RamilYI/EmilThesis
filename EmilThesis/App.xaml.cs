@@ -20,6 +20,7 @@ namespace EmilThesis
         {
             var container = ContainerConfig.Configure();
             var mainView = container.Resolve<MainWindow>();
+            mainView.Closed += (o, args) => { this.Shutdown(); };
             mainView.Show();
         }
     }

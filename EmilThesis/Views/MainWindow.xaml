@@ -26,7 +26,7 @@
             </GroupBox>
             <Button Content="Рассчитать" Command="{Binding CalcCommand}" Grid.Row="1" Background="Gray" BorderBrush="Gray" Margin="5" />
             <Button Content="Отменить расчёт" Grid.Row="2" Background="Gray" BorderBrush="Gray" Margin="5" />
-            <Button Content="Загрузить результаты расчёта в файл Excel" Grid.Row="3" Background="Gray" BorderBrush="Gray" Margin="5" />
+            <Button Content="Загрузить результаты расчёта в файл Excel" Command="{Binding ExportCommand}"  Grid.Row="3" Background="Gray" BorderBrush="Gray" Margin="5" />
         </wpfAutoGrid:AutoGrid>
         <GridSplitter Grid.Column="1" Width="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
         <wpfAutoGrid:AutoGrid Grid.Column="2" Rows="1*, 2*">

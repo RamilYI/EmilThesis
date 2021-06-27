@@ -1,9 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using EmilThesis.Helpers;
 using EmilThesis.Models;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
 
 namespace EmilThesis.ViewModels
 {
@@ -15,6 +20,7 @@ namespace EmilThesis.ViewModels
         #region Поля и свойства
 
         private ObservableCollection<TimeSeriesItem> inputTimeSeries;
+        private readonly TimeSeriesReader timeSeriesReader;
 
         public ObservableCollection<TimeSeriesItem> TimeSeriesValues
         {
@@ -28,6 +34,7 @@ namespace EmilThesis.ViewModels
         public DelegateCommand AddCommand { get; }
         public DelegateCommand RemoveCommand { get; }
         public DelegateCommand ImportCommand { get; }
+        public DelegateCommand ClearCommand { get; set; }
 
         #endregion
 
@@ -35,12 +42,24 @@ namespace EmilThesis.ViewModels
 
         private void ImportCommandhandler()
         {
-            throw new System.NotImplementedException();
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "CSV (Semicolon delimitted) (*.csv)|*.csv",
+                InitialDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ProjectTemplates")
+            };
+            var result = openFileDialog.ShowDialog();
+            if (result.HasValue && result.Value)
+            {
+                this.timeSeriesReader.ReadFile(openFileDialog.FileName);
+            }
         }
 
         private void RemoveCommandHandler()
         {
-            this.TimeSeriesValues.Remove(this.TimeSeriesValues.Last());
+            if (this.TimeSeriesValues.Any())
+            {
+                this.TimeSeriesValues.Remove(this.TimeSeriesValues.Last());
+            }
         }
 
         private void AddCommandHandler()
@@ -49,8 +68,13 @@ namespace EmilThesis.ViewModels
             RaisePropertyChanged(nameof(this.TimeSeriesValues));
         }
 
-        #endregion
+        private void ClearCommandHandler()
+        {
+            this.TimeSeriesValues.Clear();
+            RaisePropertyChanged(nameof(this.TimeSeriesValues));
+        }
 
+        #endregion
 
         #region Конструктор
 
@@ -60,6 +84,8 @@ namespace EmilThesis.ViewModels
             this.AddCommand = new DelegateCommand(this.AddCommandHandler);
             this.RemoveCommand = new DelegateCommand(this.RemoveCommandHandler);
             this.ImportCommand = new DelegateCommand(this.ImportCommandhandler);
+            this.ClearCommand = new DelegateCommand(this.ClearCommandHandler);
+            this.timeSeriesReader = new TimeSeriesReader(inputTimeSeries);
         }
 
         #endregion
