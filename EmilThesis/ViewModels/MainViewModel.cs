@@ -32,6 +32,10 @@ namespace EmilThesis.ViewModels
         /// </summary>
         private readonly TimeSeriesAnalyzer timeSeriesAnalyzer;
 
+        private readonly TimeSeriesResultExporter timeSeriesResultExporter = new TimeSeriesResultExporter();
+
+        private TimeSeriesResult timeSeriesResult;
+
         public double Alpha
         {
             get => this.timeSeriesInputParamters.Alpha;
@@ -78,8 +82,6 @@ namespace EmilThesis.ViewModels
         }
 
         private readonly Dictionary<string, List<string>> _errorsByPropertyName = new Dictionary<string, List<string>>();
-        private readonly TimeSeriesResultExporter timeSeriesResultExporter = new TimeSeriesResultExporter();
-        private TimeSeriesResult timeSeriesResult;
 
         public IEnumerable GetErrors(string propertyName) => _errorsByPropertyName.ContainsKey(propertyName) ? _errorsByPropertyName[propertyName] : null;
 

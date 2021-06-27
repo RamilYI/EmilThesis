@@ -1,3 +1,7 @@
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows;
 using Prism.Mvvm;
 
 namespace EmilThesis.Models
@@ -13,6 +17,12 @@ namespace EmilThesis.Models
             get => this.date;
             set
             {
+                if (value < 0)
+                {
+                    MessageBox.Show("Значение не может быть отрицательным!");
+                    return;
+                }
+
                 this.date = value;
                 RaisePropertyChanged();
             }

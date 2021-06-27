@@ -9,13 +9,13 @@
     <TabControl Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
         <TabItem Style="{DynamicResource MahApps.Styles.TabItem.VisualStudio}">
             <TabItem.Header>
-                <TextBlock Text="Коэффициенты S1" FontSize="12"/>
+                <TextBlock Text="Сглаженные значения первого порядка" FontSize="12"/>
             </TabItem.Header>
             <DataGrid AutoGenerateColumns="True" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" ItemsSource="{Binding S1}" CanUserAddRows="False" IsReadOnly="True" BorderBrush="Black" Background="WhiteSmoke" ColumnWidth="Auto" CanUserDeleteRows="False" FontSize="12" />
         </TabItem>
         <TabItem Style="{DynamicResource MahApps.Styles.TabItem.VisualStudio}">
             <TabItem.Header>
-                <TextBlock Text="Коэффициенты S2" FontSize="12"/>
+                <TextBlock Text="Сглаженные значения второго порядка" FontSize="12"/>
             </TabItem.Header>
             <DataGrid AutoGenerateColumns="True" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" ItemsSource="{Binding S2}" CanUserAddRows="False" IsReadOnly="True" BorderBrush="Black" Background="WhiteSmoke" ColumnWidth="Auto" CanUserDeleteRows="False" FontSize="12" />
         </TabItem>

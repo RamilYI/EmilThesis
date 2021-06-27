@@ -10,13 +10,13 @@
     <TabControl Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
         <TabItem Style="{DynamicResource MahApps.Styles.TabItem.VisualStudio}">
             <TabItem.Header>
-                <TextBlock Text="Коэффициенты S1" FontSize="12"/>
+                <TextBlock Text="Сглаженные значения первого порядка" FontSize="12"/>
             </TabItem.Header>
             <oxy:PlotView Model="{Binding S1}"/>
         </TabItem>
         <TabItem Style="{DynamicResource MahApps.Styles.TabItem.VisualStudio}">
             <TabItem.Header>
-                <TextBlock Text="Коэффициенты S2" FontSize="12"/>
+                <TextBlock Text="Сглаженные значения второго порядка" FontSize="12"/>
             </TabItem.Header>
             <oxy:PlotView Model="{Binding S2}"/>
         </TabItem>

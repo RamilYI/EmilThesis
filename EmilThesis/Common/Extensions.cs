@@ -13,11 +13,11 @@ namespace EmilThesis.Common
             switch (eventArgs.PropertyName)
             {
                 case nameof(TimeSeriesItem.Date):
-                    eventArgs.Column.Header = "Дата";
+                    eventArgs.Column.Header = "Год";
                     break;
 
                 case nameof(TimeSeriesItem.Value):
-                    eventArgs.Column.Header = "Значение";
+                    eventArgs.Column.Header = "Количество продаж";
                     break;
 
                 default:
