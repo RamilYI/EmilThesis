@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using Prism.Mvvm;
 
 namespace EmilThesis.Models
